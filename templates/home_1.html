@@ -1,0 +1,191 @@
+{% extends 'base_1.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock %}
+{% block content %}
+      
+   
+      <!-- Hero-->
+      <section class="container pt-5 my-5 pb-lg-4">
+        <div class="row pt-0 pt-md-2 pt-lg-0">
+          <div class="col-xl-7 col-lg-6 col-md-5 order-md-2 mb-4 mb-lg-3"><img src="{% static 'img/real-estate/hero-image.jpg' %}" alt="Hero image"></div>
+          <div class="col-xl-5 col-lg-6 col-md-7 order-md-1 pt-xl-5 pe-lg-0 mb-3 text-md-start text-center">
+            <h1 class="display-4 mt-lg-5 mb-md-4 mb-3 pt-md-4 pb-lg-2">Easy way to find <br> a perfect rent</h1>
+            <p class="position-relative lead me-lg-n5">We provide a complete service for the rental of flat, aparment and room. We have been operating more than 10 years. Search thousands of apartments and flats on Finder.</p>
+          </div>
+          <!-- Search property form group-->
+          <div class="col-xl-8 col-lg-10 order-3 mt-lg-n5">
+            <form class="form-group d-block" action="{% url 'home:search' %}" method="GET">
+              <div class="row g-0 ms-sm-n2">
+                <div class="col-md-8 d-sm-flex align-items-center">
+                 
+                  <div class="dropdown w-sm-50 border-end-sm" data-bs-toggle="select">
+                    <button class="btn btn-link dropdown-toggle ps-2 ps-sm-3" type="button" data-bs-toggle="dropdown"><i class="fi-map-pin me-2"></i><span class="dropdown-toggle-label">Location</span></button>
+                    <input type="hidden" type="text" id="location-id">
+                    <ul class="dropdown-menu location-ul" >
+                      {%for location in location_search %}
+                      <li data-value="{{location}}"><a class="dropdown-item" href="#"><span class="dropdown-item-label">{{location}}</span></a></li>
+                      {%endfor%}
+                    </ul>
+                  </div>
+                  <hr class="d-sm-none my-2">
+                  <div class="dropdown w-sm-50 border-end-sm" data-bs-toggle="select">
+                    <button class="btn btn-link dropdown-toggle ps-2 ps-sm-3" type="button" data-bs-toggle="dropdown"><i class="fi-map-pin me-2"></i><span class="dropdown-toggle-label">District</span></button>
+                    <input type="hidden" type="text" id="district-id">
+                    <ul class="dropdown-menu district-ul">
+                      {%for district in district_search %}
+                      <li data-value="{{district}}"><a class="dropdown-item" href="#"><span class="dropdown-item-label">{{district}}</span></a></li>
+                      {%endfor%}
+                    </ul>
+                  </div>
+                  <hr class="d-sm-none my-2">
+                  <div class="dropdown w-sm-50 border-end-md" data-bs-toggle="select">
+                    <button class="btn btn-link dropdown-toggle ps-2 ps-sm-3" type="button" data-bs-toggle="dropdown"><i class="fi-list me-2"></i><span class="dropdown-toggle-label">Property type</span></button>
+                    <input type="hidden"  type="text" id="type-id">
+                    <ul class="dropdown-menu type-ul">
+                      {%for type in type_search%}
+                      <li data-value="{{type}}"><a class="dropdown-item" href="#"><span class="dropdown-item-label">{{type}}</span></a></li>
+                      {%endfor%}
+                    </ul>
+                  </div>
+                </div>
+                <hr class="d-md-none mt-2">
+                <div class="col-md-4 d-sm-flex align-items-center pt-4 pt-md-0">
+                  <div class="d-flex align-items-center w-100 pt-2 pb-4 py-sm-0 ps-2 ps-sm-3"><i class="fi-cash fs-lg text-muted me-2"></i><span class="text-muted">Price</span>
+                    <div class="range-slider pe-0 pe-sm-3" data-start-min="450" data-min="0" data-max="1000" data-step="1">
+                      <div class="range-slider-ui"></div>
+                      <input class="form-control range-slider-value-min" type="hidden">
+                    </div>
+                  </div>
+                  <button class="btn btn-icon btn-primary px-3 w-100 w-sm-auto flex-shrink-0" type="submit"><i class="fi-search"></i><span class="d-sm-none d-inline-block ms-2">Search</span></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!-- Property categories-->
+      <section class="container mb-5">
+        <div class="row row-cols-lg-4 row-cols-sm-3 row-cols-2 g-3 g-xl-4">
+          <div class="col"><a class="icon-box card card-body h-100 border-0 shadow-sm card-hover h-100 text-center" href="{% url 'home:search' %}?type=Flat">
+            <div class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"><i class="fi-real-estate-house"></i></div>
+            <h3 class="icon-box-title fs-base mb-0">Flat</h3></a></div>
+        <div class="col"><a class="icon-box card card-body h-100 border-0 shadow-sm card-hover h-100 text-center" href="{% url 'home:search' %}?type=Apartment">
+            <div class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"><i class="fi-apartment"></i></div>
+            <h3 class="icon-box-title fs-base mb-0">Apartments</h3></a></div>
+        <div class="col"><a class="icon-box card card-body h-100 border-0 shadow-sm card-hover h-100 text-center" href="{% url 'home:search' %}?type=Single+Room">
+            <div class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"><i class="fi-single-bed"></i></div>
+            <h3 class="icon-box-title fs-base mb-0">Single Room</h3></a></div>
+        <div class="col"><a class="icon-box card card-body h-100 border-0 shadow-sm card-hover h-100 text-center" href="{% url 'home:search' %}?type=Flat">
+            <div class="icon-box-media bg-faded-primary text-primary rounded-circle mb-3 mx-auto"><i class="fi-apartment"></i></div>
+            <h3 class="icon-box-title fs-base mb-0">1BHK</h3></a></div>
+        </div>
+      </section>
+      <!-- Services-->
+      <section class="container mb-5 mt-n3 mt-lg-0">
+        <div class="tns-carousel-wrapper tns-nav-outside tns-nav-outside-flush mx-n2">
+          <div class="tns-carousel-inner row gx-4 mx-0 py-3" data-carousel-options="{&quot;items&quot;: 3, &quot;controls&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3}}}">
+           
+            <div class="col">
+              <div class="card card-hover border-0 h-100 pb-2 pb-sm-3 px-sm-3 text-center"><img class="d-block mx-auto my-3" src="{% static 'img/real-estate/illustrations/sell.svg' %}" width="256" alt="Illustration">
+                <div class="card-body">
+                  <h2 class="h4 card-title">Post your Ad</h2>
+                  <p class="card-text fs-sm">List your rental space today! Post your ad on our platform and connect with potential renters quickly and easily. It's free and takes just minutes to get started. </p>
+                </div>
+                <div class="card-footer pt-0 border-0"><a class="btn btn-outline-primary stretched-link" href="{% url 'home:add_room'%}">Place an ad</a></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card card-hover border-0 h-100 pb-2 pb-sm-3 px-sm-3 text-center"><img class="d-block mx-auto my-3" src="{% static 'img/real-estate/illustrations/rent.svg' %}" width="256" alt="Illustration">
+                <div class="card-body">
+                  <h2 class="h4 card-title">Find a Rent</h2>
+                  <p class="card-text fs-sm">Find your dream rental today! Discover the perfect living space that fits your needs and budget. Start renting now and enjoy a hassle-free experience with us.</p>
+                </div>
+                <div class="card-footer pt-0 border-0"><a class="btn btn-outline-primary stretched-link" href="{% url 'home:room_list' %}">Find a rental</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr class="mt-n1 mb-5 d-md-none">
+      <!-- Top offers (carousel)-->
+      <section class="container mb-5 pb-md-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h2 class="h3 mb-0">Top offers</h2><a class="btn btn-link fw-normal p-0" href="{% url 'home:search' %}">View all<i class="fi-arrow-long-right ms-2"></i></a>
+        </div>
+        <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-nav-outside-flush mx-n2">
+          <div class="tns-carousel-inner row gx-4 mx-0 pt-3 pb-4" data-carousel-options="{&quot;items&quot;: 4, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;992&quot;:{&quot;items&quot;:4}}}">
+            <!-- Item-->
+            {% for top_offer in top_offers %}
+            <div class="col">
+              <div class="card shadow-sm card-hover border-0 h-100">
+                <div class="card-img-top card-img-hover" style="max-height: 220px;"><a class="img-overlay" href="{% url 'home:room_detail' top_offer.slug %}"></a>
+                  <img src="{{top_offer.image.url}}" alt="Image">
+                </div>
+                <div class="card-body position-relative pb-3 d-flex flex-column">
+                  <h4 class="mb-1 fs-xs fw-normal text-uppercase text-primary">{{top_offer.type}}</h4>
+                  <h3 class="h6 mb-2 fs-base"><a class="nav-link stretched-link" href="{% url 'home:room_detail' top_offer.slug %}">{{top_offer.title}}</a></h3>
+                  <p class="mb-2 fs-sm text-muted">{{top_offer.location}}, {{top_offer.district}}</p>
+                  <div class="fw-bold"><i class="fi-cash mt-n1 me-2 lead align-middle opacity-70"></i>NPR {{top_offer.price}}</div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-center mx-3 pt-3 text-nowrap"><span class="d-inline-block mx-1 px-2 fs-sm">3<i class="fi-bed ms-1 mt-n1 fs-lg text-muted"></i></span><span class="d-inline-block mx-1 px-2 fs-sm">2<i class="fi-bath ms-1 mt-n1 fs-lg text-muted"></i></span><span class="d-inline-block mx-1 px-2 fs-sm">2<i class="fi-car ms-1 mt-n1 fs-lg text-muted"></i></span></div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+     
+      <!-- Cities (carousel)-->
+      <section class="container mb-5 pb-2">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h2 class="h3 mb-0">Search property by city</h2><a class="btn btn-link fw-normal ms-md-3 pb-0" href="{% url 'home:search' %}">View all<i class="fi-arrow-long-right ms-2"></i></a>
+        </div>
+        <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-nav-outside-flush mx-n2">
+          <div class="tns-carousel-inner row gx-4 mx-0 py-md-4 py-3" data-carousel-options="{&quot;items&quot;: 4, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;992&quot;:{&quot;items&quot;:4}}}">
+            <!-- Item-->
+            <div class="col"><a class="card shadow-sm card-hover border-0" href="{% url 'home:search' %}?district=Kathmandu">
+                <div class="card-img-top card-img-hover"><span class="img-overlay opacity-65"></span><img src="{% static 'img/real-estate/city/new-york.jpg' %}" alt="Kathmandu">
+                  
+                </div>
+                <div class="card-body text-center">
+                  <h3 class="mb-0 fs-base text-nav">Kathmandu</h3>
+                </div></a></div>
+            <!-- Item-->
+            <div class="col"><a class="card shadow-sm card-hover border-0" href="{% url 'home:search' %}?district=Lalitpur">
+                <div class="card-img-top card-img-hover"><span class="img-overlay opacity-65"></span><img src="{% static 'img/real-estate/city/chicago.jpg' %}" alt="Lalitpur">
+                  
+                </div>
+                <div class="card-body text-center">
+                  <h3 class="mb-0 fs-base text-nav">Lalitpur</h3>
+                </div></a></div>
+            <!-- Item-->
+            <div class="col"><a class="card shadow-sm card-hover border-0" href="{% url 'home:search' %}?district=Bhaktapur">
+                <div class="card-img-top card-img-hover"><span class="img-overlay opacity-65"></span><img src="{% static 'img/real-estate/city/los-angeles.jpg' %}" alt="Bhaktapur">
+                 
+                </div>
+                <div class="card-body text-center">
+                  <h3 class="mb-0 fs-base text-nav">Bhaktapur</h3>
+                </div></a></div>
+          
+          </div>
+        </div>
+      </section>
+      <!-- Partners (carousel)-->
+      <section class="container mb-5 pb-2 pb-lg-4">
+        <h2 class="h3 mb-4 text-center text-md-start">Our partners</h2>
+        <div class="tns-carousel-wrapper tns-nav-outside tns-nav-outside-flush">
+          <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 6, &quot;controls&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2}, &quot;500&quot;:{&quot;items&quot;:4}, &quot;992&quot;:{&quot;items&quot;:5, &quot;gutter&quot;: 16}, &quot;1200&quot;:{&quot;items&quot;:6, &quot;gutter&quot;: 24}}}">
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/01_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/01_gray.svg' %}" alt="Logo" width="196"></a></div>
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/02_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/02_gray.svg' %}" alt="Logo" width="196"></a></div>
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/03_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/03_gray.svg' %}" alt="Logo" width="196"></a></div>
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/04_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/04_gray.svg' %}" alt="Logo" width="196"></a></div>
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/05_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/05_gray.svg' %}" alt="Logo" width="196"></a></div>
+            <div><a class="swap-image" href="#"><img class="swap-to" src="{% static 'img/real-estate/brands/06_color.svg' %}" alt="Logo" width="196"><img class="swap-from" src="{% static 'img/real-estate/brands/06_gray.svg' %}" alt="Logo" width="196"></a></div>
+          </div>
+        </div>
+      </section>
+    
+    
+    {% endblock %}

@@ -1,0 +1,223 @@
+{% extends 'base_1.html' %}
+{% load static %}
+{% block title %}
+Detail
+{% endblock %}
+{% block content %} 
+<!-- Review modal-->
+      <div class="modal fade" id="modal-review" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-block position-relative border-0 pb-0 px-sm-5 px-4">
+              <h3 class="modal-title mt-4 text-center">Leave a review</h3>
+              <button class="btn-close position-absolute top-0 end-0 mt-3 me-3" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-sm-5 px-4">
+              <form class="needs-validation" novalidate action="{% url 'home:room_review' room.slug %}" method="post">
+                {% csrf_token %}
+               
+                <div class="mb-3">
+                  <label class="form-label" for="review-rating">Rating <span class='text-danger'>*</span></label>
+                  <select class="form-control form-select" id="review-rating" required name="rating">
+                    <option value="" selected disabled hidden>Choose rating</option>
+                    <option value="5">5 stars</option>
+                    <option value="4">4 stars</option>
+                    <option value="3">3 stars</option>
+                    <option value="2">2 stars</option>
+                    <option value="1">1 star</option>
+                  </select>
+                  <div class="invalid-feedback">Please rate the property.</div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="review-text">Review <span class='text-danger'>*</span></label>
+                  <textarea class="form-control" id="review-text" rows="5" placeholder="Your review message" required name="review"></textarea>
+                  <div class="invalid-feedback">Please write your review.</div>
+                </div>
+                <button class="btn btn-primary d-block w-100 mb-4" type="submit">Submit a review</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="container pt-5 mt-5">
+        {% include 'messages.html' %}
+        <!-- Breadcrumb-->
+        <nav class="mb-3 pt-md-3" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home:room_list' %}">Property for rent</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{room.title}}</li>
+          </ol>
+        </nav>
+        <h1 class="h2 mb-2">{{room.title}}</h1>
+        <p class="mb-2 pb-1 fs-lg">{{room.location}}</p>
+        <!-- Features + Sharing-->
+        <div class="d-flex justify-content-between align-items-center">
+          <ul class="d-flex mb-4 list-unstyled">
+            <li class="me-3 pe-3 border-end"><b class="me-1">{{room.num_bedroom}}</b><i class="fi-bed mt-n1 lead align-middle text-muted"></i></li>
+            <li class="me-3 pe-3 border-end"><b class="me-1">{{room.num_bathroom}}</b><i class="fi-bath mt-n1 lead align-middle text-muted"></i></li>
+            <li class="me-3 pe-3 border-end"><b class="me-1">{{room.num_kitchen}}</b><i class="fi-dish mt-n1 lead align-middle text-muted"></i></li>
+            <li><b>56 </b>sq.m</li>
+          </ul>
+          <div class="text-nowrap">
+            <button class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle ms-2 mb-2" type="button" data-bs-toggle="tooltip" title="Add to Wishlist"><i class="fi-heart"></i></button>
+            <div class="dropdown d-inline-block" data-bs-toggle="tooltip" title="Share">
+              <button class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle ms-2 mb-2" type="button" data-bs-toggle="dropdown"><i class="fi-share"></i></button>
+              <div class="dropdown-menu dropdown-menu-end my-1">
+                <button class="dropdown-item" type="button"><i class="fi-facebook fs-base opacity-75 me-2"></i>Facebook</button>
+                <button class="dropdown-item" type="button"><i class="fi-twitter fs-base opacity-75 me-2"></i>Twitter</button>
+                <button class="dropdown-item" type="button"><i class="fi-instagram fs-base opacity-75 me-2"></i>Instagram</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Gallery-->
+      <section class="container overflow-auto mb-4 pb-3" data-simplebar>
+        <div class="row g-2 g-md-3 gallery" data-thumbnails="true" style="min-width: 30rem;">
+          <div class="col-6"><a class="gallery-item rounded rounded-md-3" style="max-height:35rem" href="{{room.image.url}}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Bathroom&lt;/h6&gt;"><img src="{{room.image.url}}" alt="Gallery thumbnail"></a></div>
+          <div class="col-3">
+            {%if room.image_1.url is not none%}<a class="gallery-item rounded rounded-md-3 mb-2 mb-md-3" style="max-height:15rem" href="{{room.image_1.url}}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Bedroom&lt;/h6&gt;"><img src="{{room.image_1.url}}" alt="Gallery thumbnail"></a>{%endif%}
+            {%if room.image_2.url is not none%}<a class="gallery-item rounded rounded-md-3" style="max-height:15rem" href="{{room.image_2.url}}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Living room&lt;/h6&gt;"><img src="{{room.image_2.url}}" alt="Gallery thumbnail"></a>{%endif%}</div>
+            <div class="col-3">
+              {%if room.image_3.url is not none%}<a class="gallery-item rounded rounded-md-3 mb-2 mb-md-3" style="max-height:15rem" href="{{room.image_3.url}}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Bedroom&lt;/h6&gt;"><img src="{{room.image_3.url}}" alt="Gallery thumbnail"></a>{%endif%}
+              {%if room.image_4.url is not none%}<a class="gallery-item rounded rounded-md-3" style="max-height:15rem" href="{{room.image_4.url}}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Kitchen&lt;/h6&gt;"><img src="{{room.image_4.url}}" alt="Gallery thumbnail"></a>{%endif%}
+              
+            </div>
+           
+        </div>
+      </section>
+      <!-- Post content-->
+      <section class="container mb-5 pb-1">
+        <div class="row">
+          <div class="col-md-7 mb-md-0 mb-4"><span class="badge bg-success me-2 mb-3">Verified</span><span class="badge bg-info me-2 mb-3">New</span>
+            <h2 class="h3 mb-4 pb-4 border-bottom">NPR {{room.price}}<span class="d-inline-block ms-1 fs-base fw-normal text-body">/month</span></h2>
+            <!-- Overview-->
+            <div class="mb-4 pb-md-3">
+              <h3 class="h4">Overview</h3>
+              <p class="mb-1">{{room.description | safe}}</p>
+             
+            </div>
+            <!-- Property Details-->
+            <div class="mb-4 pb-md-3">
+              <h3 class="h4">Property Details</h3>
+              <ul class="list-unstyled mb-0">
+                <li><b>Type: </b>{{room.type}}</li>
+                <li><b>Furnishing: </b>{{room.furnishing}}</li>
+                <li><b>Bedroom: </b>{{room.num_bedroom}}</li>
+                <li><b>Living Room: </b>{{room.num_livingroom}}</li>
+                <li><b>Kitchen: </b>{{room.num_kitchen}}</li>
+                <li><b>Bathroom: </b>{{room.num_bathroom}}</li>
+                <li><b>Contact Number: </b>{{room.contact_num}}</li>
+                <li><b>Property Address: </b>{{room.location}}</li>
+              </ul>
+            </div>
+           
+            <!-- Post meta-->
+            <div class="mb-lg-5 mb-md-4 pb-lg-2 py-4 border-top">
+              <ul class="d-flex mb-4 list-unstyled fs-sm">
+                <li class="me-3 pe-3 border-end">Published: <b>{{room.published_date.date}}</b></li>
+                <li class="me-3 pe-3 border-end">Ad number: <b>{{room.id}}</b></li>
+              </ul>
+            </div>
+            <!-- Reviews-->
+            <div class="mb-4 pb-4 border-bottom">
+              <h3 class="h4 pb-3"><i class="fi-star-filled mt-n1 me-2 lead align-middle text-warning"></i>{%if average_rating is not None%}{{average_rating}}{%else%} 0.0{%endif%} ({{total_reviews}} reviews)</h3>
+              <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between"><a class="btn btn-outline-primary mb-sm-0 mb-3" href="#modal-review" data-bs-toggle="modal"><i class="fi-edit me-1"></i>Add review</a>
+               
+              </div>
+            </div>            
+            {% for review in reviews %}
+            <div class="mb-4 pb-4 border-bottom">
+              <div class="d-flex justify-content-between mb-3">
+                <div class="d-flex align-items-center pe-2"><img class="rounded-circle me-1" src="{% static 'img/avatars/17.png' %}" width="48" alt="Avatar">
+                  <div class="ps-2">
+                    <h6 class="fs-base mb-0">{{review.author.full_name}}</h6><span class="star-rating">
+                      {% with ''|center:review.rating as range %}
+                        {% for _ in range %}
+                          <i class="star-rating-icon fi-star-filled active"></i>
+                        {% endfor %}
+                      {% endwith %}
+                    </span>
+                  </div>
+                </div><span class="text-muted fs-sm">{{review_published_date.date}}</span>
+              </div>
+              <p>{{review.review}}</p>
+              <div class="d-flex align-items-center">
+              </div>
+            </div>
+            {% endfor %}
+            <!-- Pagination-->
+            <nav class="mt-2 mb-4" aria-label="Reviews pagination">
+              <ul class="pagination">
+                <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
+                {%if total_reviews > 4 %}
+                {%for i in reviews.paginator.page_range %}
+                <li  {%if reviews.number == forloop.counter %} class="page-item d-none d-sm-block active" {%else%} class="page-item d-none d-sm-block " {%endif%}><a class="page-link" href="{% url 'home:room_detail' room.slug %}?review_page={{i}}">{{i}}</a></li>
+                {%endfor%}
+                {%endif%}
+                
+              </ul>
+            </nav>
+          </div>
+          <!-- Sidebar-->
+          <aside class="col-lg-4 col-md-5 ms-lg-auto pb-1">
+            <!-- Contact card-->
+            <div class="card shadow-sm mb-4">
+              <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between"><a class="text-decoration-none" href="real-estate-vendor-properties.html"> 
+                  <img class="rounded-circle mb-2" src="{% static 'img/avatars/17.png' %}" width="60" alt="Avatar">
+                    <h5 class="mb-1">{{room.author.full_name}}</h5>
+                    <div class="mb-1"><span class="star-rating"><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star-filled active"></i></span><span class="ms-1 fs-sm text-muted">(45 reviews)</span>
+                    </div>
+                    <p class="text-body">{{room.author_agent_or_owner}}</p></a>
+                  <div class="ms-4 flex-shrink-0"><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle ms-2 mb-2" href="#"><i class="fi-facebook"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle ms-2 mb-2" href="#"><i class="fi-linkedin"></i></a></div>
+                </div>
+                <ul class="list-unstyled border-bottom mb-4 pb-4">
+                  <li><a class="nav-link fw-normal p-0" href="tel:3025550107"><i class="fi-phone mt-n1 me-2 align-middle opacity-60"></i>(+977) {{room.author.phone_number}}</a></li>
+                  <li><a class="nav-link fw-normal p-0" href="mailto:floyd_miles@email.com"><i class="fi-mail mt-n1 me-2 align-middle opacity-60"></i>{{room.author.email}}</a></li>
+                </ul>
+                
+              </div>
+            </div>
+            <!-- Location (Map)-->
+            <div class="pt-2">
+              <div class="position-relative mb-2"><img class="rounded-3" src="{% static 'img/real-estate/single/map.jpg' %}" alt="Map">
+                <div class="d-flex w-100 h-100 align-items-center justify-content-center position-absolute top-0 start-0"><a class="btn btn-primary stretched-link" href="{{room.google_maps_embed_url}}" data-iframe="true" data-bs-toggle="lightbox"><i class="fi-route me-2"></i>Get directions</a></div>
+              </div>
+              <p class="mb-0 fs-sm text-center">{{room.location}}, {{room.district}}</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <!-- Recently viewed-->
+      <section class="container mb-5 pb-2 pb-lg-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h2 class="h3 mb-0">Recently viewed</h2><a class="btn btn-link fw-normal p-0" href="real-estate-catalog-rent.html">View all<i class="fi-arrow-long-right ms-2"></i></a>
+        </div>
+        <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-nav-outside-flush mx-n2">
+          <div class="tns-carousel-inner row gx-4 mx-0 pt-3 pb-4" data-carousel-options="{&quot;items&quot;: 4, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;992&quot;:{&quot;items&quot;:4}}}">
+            <!-- Item-->
+            {%for recent_rooms in recently_viewed %}
+            <div class="col">
+              <div class="card shadow-sm card-hover border-0 h-100">
+                <div class="card-img-top card-img-hover"><a class="img-overlay" href="{% url 'home:room_detail' recent_rooms.slug %}"></a>
+                  <div class="position-absolute start-0 top-0 pt-3 ps-3"><span class="d-table badge bg-success mb-1">Verified</span><span class="d-table badge bg-info">New</span></div>
+                  <div class=""  style="max-height: 220px">
+                  <img src="{{recent_rooms.image.url}}" alt="Image"></div>
+                </div>
+                <div class="card-body position-relative pb-3">
+                  <h4 class="mb-1 fs-xs fw-normal text-uppercase text-primary">{{recent_rooms.type}}</h4>
+                  <h3 class="h6 mb-2 fs-base"><a class="nav-link stretched-link" href="{% url 'home:room_detail' recent_rooms.slug %}">{{recent_rooms.title}}</a></h3>
+                  <p class="mb-2 fs-sm text-muted">{{recent_rooms.location}}, {{recent_rooms.district}}</p>
+                  <div class="fw-bold"><i class="fi-cash mt-n1 me-2 lead align-middle opacity-70"></i>NPR {{recent_rooms.price}}</div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-center mx-3 pt-3 text-nowrap"><span class="d-inline-block mx-1 px-2 fs-sm">3<i class="fi-bed ms-1 mt-n1 fs-lg text-muted"></i></span><span class="d-inline-block mx-1 px-2 fs-sm">2<i class="fi-bath ms-1 mt-n1 fs-lg text-muted"></i></span><span class="d-inline-block mx-1 px-2 fs-sm">2<i class="fi-car ms-1 mt-n1 fs-lg text-muted"></i></span></div>
+              </div>
+            </div>
+           {%endfor%}
+          </div>
+        </div>
+      </section>
+  
+{% endblock %}

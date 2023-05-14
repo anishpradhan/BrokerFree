@@ -1,0 +1,202 @@
+{% extends 'base_1.html' %}
+{% block content %}
+{% block title %}
+Flat & Apartments
+{% endblock %}
+{% load static %}
+<!-- Page container-->
+<div class="container-fluid mt-5 pt-5 p-0">
+  <div class="row g-0 mt-n3">
+    <!-- Filters sidebar (Offcanvas on mobile)-->
+    <aside class="col-lg-4 col-xl-3 border-top-lg border-end-lg shadow-sm px-3 px-xl-4 px-xxl-5 pt-lg-2">
+      <div class="offcanvas-lg offcanvas-start" id="filters-sidebar">
+        <div class="offcanvas-header d-flex d-lg-none align-items-center">
+          <h2 class="h5 mb-0">Filters</h2>
+          <button class="btn-close" type="button" data-bs-dismiss="offcanvas"
+            data-bs-target="#filters-sidebar"></button>
+        </div>
+        <div class="offcanvas-header d-block border-bottom pt-0 pt-lg-4 px-lg-0">
+          <ul class="nav nav-tabs mb-0">
+            <li class="nav-item"><a class="nav-link active"><i
+                  class="fi-rent fs-base me-2"></i>For rent</a></li>
+          
+          </ul>
+        </div>
+        <form class="form-submit" action="{% url 'home:search'%}" type="GET">
+          <div class="offcanvas-body py-lg-4">
+            <div class="pb-4 mb-2">
+              <h3 class="h6">Location</h3>
+              <select class="form-select mb-2" name="location">
+                <option selected disabled>Choose Location</option>
+                {%for location in location_search%}
+                {%if location == search_fields.location%}
+                <option value="{{location}}" selected>{{location}}</option>
+                {%else%}
+                <option value="{{location}}">{{location}}</option>
+                {%endif%}
+                {%endfor%}
+              </select>
+              <select class="form-select" name="district">
+                <option selected disabled>Choose District</option>
+                {%for district in district_search%}
+                {%if district == search_fields.district%}
+                <option value="{{district}}" selected>{{district}}</option>
+                {%else%}
+                <option value="{{district}}">{{district}}</option>
+                {%endif%}
+                {%endfor%}
+
+              </select>
+            </div>
+            <div class="pb-4 mb-2">
+              <h3 class="h6">Property type</h3> 
+              <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="Flat" {% if 'Flat' == search_fields.type %} checked {%endif%}>
+                  <label class="form-check-label fs-sm" for="house">Flat</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="Apartment" {% if 'Apartment' == search_fields.type %} checked {%endif%}>
+                  <label class="form-check-label fs-sm" for="apartment">Apartment</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="type" value="Single Room"  {% if 'Single Room' == search_fields.type %} checked {%endif%}>
+                  <label class="form-check-label fs-sm" for="room">Single Room</label>
+                </div>
+                
+              </div>
+            </div>
+            <div class="pb-4 mb-2">
+              <h3 class="h6">Price per month</h3>
+              <div class="range-slider" data-start-min="1100" data-start-max="3000" data-min="200" data-max="5000"
+                data-step="100">
+                <div class="range-slider-ui"></div>
+                <div class="d-flex align-items-center">
+                  <div class="w-50 pe-2">
+                    <div class="input-group"><span class="input-group-text fs-base">$</span>
+                      <input class="form-control range-slider-value-min" type="text">
+                    </div>
+                  </div>
+                  <div class="text-muted">&mdash;</div>
+                  <div class="w-50 ps-2">
+                    <div class="input-group"><span class="input-group-text fs-base">$</span>
+                      <input class="form-control range-slider-value-max" type="text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="border-top py-4">
+              <input class="btn btn-outline-primary" type="submit" value="Find">
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </aside>
+    <!-- Page content-->
+    <div class="col-lg-8 col-xl-9 position-relative overflow-hidden pb-5 pt-4 px-3 px-xl-4 px-xxl-5">
+      <!-- Map popup-->
+      <div class="map-popup invisible" id="map">
+        <button class="btn btn-icon btn-light btn-sm shadow-sm rounded-circle" type="button"
+          data-bs-toggle-class="invisible" data-bs-target="#map"><i class="fi-x fs-xs"></i></button>
+        <div class="interactive-map" data-map-options-json="json/map-options-real-estate-rent.json"></div>
+      </div>
+      <!-- Breadcrumb-->
+      <nav class="mb-3 pt-md-2" aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home:home' %}">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Property for rent</li>
+        </ol>
+      </nav>
+      <!-- Title-->
+      <div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
+        <h1 class="h2 mb-sm-0">Property for rent</h1>
+      </div>
+      <!-- Sorting-->
+      <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch my-2">
+        <div class="d-flex align-items-center flex-shrink-0">
+          <label class="fs-sm me-2 pe-1 text-nowrap" for="sortby"><i
+              class="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
+          <select class="form-select form-select-sm" id="sortby">
+            <option selected>Newest</option>
+            
+          </select>
+        </div>
+        <hr class="d-none d-sm-block w-100 mx-4">
+        <div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted"><i
+            class="fi-check-circle me-2"></i><span class="fs-sm mt-n1">{{room_count}} result{% if room_count > 1 %}s{%endif%}</span></div>
+      </div>
+      <!-- Catalog grid-->
+      <div class="row g-4 py-4">
+        <!-- Item-->
+        {% for room in rooms %}
+        <div class="col-sm-6 col-xl-4">
+          <div class="card shadow-sm card-hover border-0 h-100">
+            <div class="tns-carousel-wrapper card-img-top card-img-hover"><a class="img-overlay"
+                href="{% url 'home:room_detail' room.slug %}"></a>
+              <div class="position-absolute start-0 top-0 pt-3 ps-3"><span
+                  class="d-table badge bg-success mb-1">Verified</span>
+              </div>
+              <div class="content-overlay end-0 top-0 pt-3 pe-3">
+               
+              </div>
+              <div class="tns-carousel-inner" style="max-height: 300px;">
+                {%if room.image.url is not none %}
+                <img src="{{room.image.url}}" alt="Image">
+                {%endif%}
+                {% if room.image_1.url is not none %}
+                <img src="{{room.image_1.url}}" alt="Image">
+                {%endif%}
+                {% if room.image_2.url is not none %}
+                <img src="{{room.image_2.url}}" alt="Image">
+                {%endif%}
+                {% if room.image_3.url is not none %}
+                <img src="{{room.image_3.url}}" alt="Image">
+                {%endif%}
+                {% if room.image_4.url is not none %}
+                <img src="{{room.image_4.url}}" alt="Image">
+                {%endif%}
+                {% if room.image_5.url is not none %}
+                <img src="{{room.image_5.url}}" alt="Image">
+                {%endif%}
+              </div>
+            </div>
+            <div class="card-body position-relative pb-3">
+              <h4 class="mb-1 fs-xs fw-normal text-uppercase text-primary">{{room.type}}</h4>
+              <h3 class="h6 mb-2 fs-base"><a class="nav-link stretched-link"
+                  href="{% url 'home:room_detail' room.slug %}">{{room.title}}</a></h3>
+              <p class="mb-2 fs-sm text-muted">{{room.location}}, {{room.district}}</p>
+              <div class="fw-bold"><i class="fi-cash mt-n1 me-2 lead align-middle opacity-70"></i>NPR {{room.price}}
+              </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-center mx-3 pt-3 text-nowrap"><span
+                class="d-inline-block mx-1 px-2 fs-sm">{{room.num_bedroom}}<i
+                  class="fi-bed ms-1 mt-n1 fs-lg text-muted"></i></span><span
+                class="d-inline-block mx-1 px-2 fs-sm">{{room.num_bathroom}}<i
+                  class="fi-bath ms-1 mt-n1 fs-lg text-muted"></i></span><span
+                class="d-inline-block mx-1 px-2 fs-sm">{{room.num_kitchen}}<i
+                  class="fi-dish ms-1 mt-n1 fs-lg text-muted"></i></span></div>
+          </div>
+        </div>
+        {%endfor%}
+
+        <!-- Pagination-->
+        <nav class="border-top pb-md-4 pt-4 mt-2" aria-label="Pagination">
+          <ul class="pagination pg-link mb-1">
+    
+            {%if room_count > 12 %}
+            {%for i in rooms.paginator.page_range %}
+            <li {% if rooms.number == forloop.counter %} class="page-item active d-none d-sm-block" {%else%}
+              class="page-item d-none d-sm-block" {%endif%} aria-current="page">
+              <a class="page-link" href="{% url 'home:room_list' %}?page={{forloop.counter}}">{{forloop.counter}}</a>
+            </li>
+
+            {%endfor%}
+            {%endif%}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

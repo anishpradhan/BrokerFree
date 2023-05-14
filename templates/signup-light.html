@@ -1,0 +1,95 @@
+{% extends 'base_registration.html' %}
+{% block content %}
+{% block title %}
+Register
+{% endblock %}
+{% load static %}
+<!-- Page content-->
+<div class="container-fluid d-flex h-100 align-items-center justify-content-center py-4 py-sm-5">
+  <div class="card card-body" style="max-width: 940px"><a
+      class="position-absolute top-0 end-0 nav-link fs-sm py-1 px-2 mt-3 me-3" href="#"
+      onclick="window.history.go(-1); return false;"><i class="fi-arrow-long-left fs-base me-2"></i>Go back</a>
+    <div class="row mx-0 align-items-center">
+      <div class="col-md-6 border-end-md p-2 p-sm-5">
+        <h2 class="h3 mb-4 mb-sm-5">Join Finder.<br>Get premium benefits:</h2>
+        <ul class="list-unstyled mb-4 mb-sm-5">
+          <li class="d-flex mb-2"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>Add and promote your
+              listings</span></li>
+          <li class="d-flex mb-2"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>Easily manage your
+              wishlist</span></li>
+          <li class="d-flex mb-0"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>Leave reviews</span></li>
+        </ul><img class="d-block mx-auto" src="{% static 'img/signin-modal/signup.svg' %}" width="344" alt="Illustartion">
+        <div class="mt-sm-4 pt-md-3">Already have an account? <a href="{% url 'login'%}">Sign in</a></div>
+      </div>
+      <div class="col-md-6 px-2 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
+        <div class="w-100 d-flex justify-content-center"><h2 class="h3 mb-4 mb-sm-5" >Sign Up</h2></div>
+
+
+        <!-- <form class="" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-primary btn-lg w-100" type="submit">Sign up </button>
+        </form> -->
+        <form class="needs-validation" method="post" novalidate>
+          {% csrf_token %}
+          {% if form.errors %}
+          {% for field in form %}
+              {% for error in field.errors %} 
+                 <div class="alert alert-danger">
+                      <small>{{ error|escape }}</small>
+                 </div>
+              {% endfor %}
+          {% endfor %}
+       {% endif %}
+          
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.full_name.id_for_label}}">{{register_form.full_name.label}}</label>
+            <input class="form-control" type="text" id="{{register_form.full_name.id_for_label}}" name="full_name" placeholder="Enter your full name" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.username.id_for_label}}">{{register_form.username.label}}</label>
+            <input class="form-control" type="text" id="{{register_form.username.id_for_label}}" name="username" placeholder="Enter your username" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.email.id_for_label}}">{{register_form.email.label}}</label>
+            <input class="form-control" type="email" id="{{register_form.email.id_for_label}}" name="email" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.phone_number.id_for_label}}">{{register_form.phone_number.label}}</label>
+            <input class="form-control" type="tel" id="{{register_form.phone_number.id_for_label}}" name="phone_number" placeholder="Enter your phone number" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.password1.id_for_label}}">{{register_form.password1.label}} <span
+                    class='fs-sm text-muted'>min. 8 char</span></label>
+            <div class="password-toggle">
+                <input class="form-control" type="password" id="{{register_form.password1.id_for_label}}"
+                    minlength="8" name="password1" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                    <input class="password-toggle-check" type="checkbox"><span
+                        class="password-toggle-indicator"></span>
+                </label>
+            </div>
+        </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{register_form.password2.id_for_label}}">{{register_form.password2.label}}</label>
+            <div class="password-toggle">
+                <input class="form-control" type="password" id="{{register_form.password2.id_for_label}}"
+                    minlength="8" name="password2" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                    <input class="password-toggle-check" type="checkbox"><span
+                        class="password-toggle-indicator"></span>
+                </label>
+            </div>
+        </div>
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="agree-to-terms" required>
+            <label class="form-check-label" for="agree-to-terms">By joining, I agree to the <a href='#'>Terms of use</a>
+              and <a href='#'>Privacy policy</a></label>
+          </div>
+          <button class="btn btn-primary btn-lg w-100" type="submit">Sign up </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
