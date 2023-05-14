@@ -23,13 +23,13 @@ class RegisterView(UserPassesTestMixin, generic.CreateView):
     success_url = reverse_lazy('home:home')
     permission_denied_message = _("You are already registered!")
 
-    def form_valid(self, form):
-        form.save()
-        new_user = auth.authenticate(username=form.cleaned_data['username'],
-                                password=form.cleaned_data['password1'],
-                                )
-        auth.login(self.request, new_user)
-        return HttpResponseRedirect(self.success_url)
+    # def form_valid(self, form):
+    #     form.save()
+    #     new_user = auth.authenticate(username=form.cleaned_data['username'],
+    #                             password=form.cleaned_data['password1'],
+    #                             )
+    #     auth.login(self.request, new_user)
+    #     return HttpResponseRedirect(self.success_url)
       
     def test_func(self):
         return self.request.user.is_anonymous
